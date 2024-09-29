@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap JavaScript (optional, if needed for modal/dialog components) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+            padding: 50px;
+        }
+        .sign-in-form {
+            display: inline-block;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #fff;
+        }
+        .sign-in-form input {
+            margin: 5px;
+            padding: 10px;
+            border-radius: 3px;
+            border: 1px solid #ccc;
+            width: 80%;
+        }
+        .button-link {
+            display: inline-block;
+            text-decoration: none;
+            background-color: #007bff;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        .button-link:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h2>Sign In</h2>
+    <form action="{{ url_for('sign_in_form') }}" method="POST" class="sign-in-form">
+        <div>
+            <input type="text" name="username" placeholder="Username" required>
+        </div>
+        <div>
+            <input type="email" name="email" placeholder="Email" required>
+        </div>
+        <div>
+            <button type="submit" class="button-link">Sign In</button>
+        </div>
+    </form>
+</body>
+</html>

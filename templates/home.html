@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
+    <title>NutriPathBeta - Home</title>
+</head>
+<body>
+<div class="navbar d-flex justify-content-between p-3 bg-light">
+    <h2>NutriPathBeta</h2>
+    <div class="d-flex">
+        {% if session.get('username') %}
+            <div class="user-info">
+                <button id="user-greeting" class="btn btn-success" onmouseover="changeToSignOutText()" onmouseout="revertToGreeting()" onclick="showSignOutPrompt()">
+                    Hi, {{ session.get('username', 'Guest').capitalize() }}
+                </button>
+                <div id="sign-out-prompt" class="sign-out-prompt" style="display: none;">
+                    <p>Are you sure you want to sign out?</p>
+                    <!-- Make the Yes and No buttons appear horizontally using a Bootstrap class -->
+                    <div class="d-flex justify-content-between">
+                        <form action="{{ url_for('sign_out') }}" method="POST">
+                            <button type="submit" class="btn btn-danger me-2">Yes</button>
+                        </form>
+                        <button onclick="hideSignOutPrompt()" class="btn btn-secondary">No</button>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <div class="btn-group">
+                <a href="{{ url_for('sign_in_form') }}" class="btn btn-primary">Sign In</a>
+                <a href="{{ url_for('add_user_form') }}" class="btn btn-secondary">Create User</a>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+
+    <!-- Remove the duplicate section here -->
+
+    <div class="container mt-5">
+        <h1>Welcome to NutriPathBeta!</h1>
+        <a href="{{ url_for('log_calories') }}" class="btn btn-info">Log Calories</a>
+        <a href="{{ url_for('view_progress') }}" class="btn btn-info">View Progress</a>
+        <a href="{{ url_for('set_goals') }}" class="btn btn-info">Set Calorie Goals</a> <!-- Link to set goals page -->
+    </div>
+
+    <script>
+        function changeToSignOutText() {
+            const greetingButton = document.getElementById('user-greeting');
+            greetingButton.innerText = 'Sign Out';
+        }
+
+        function revertToGreeting() {
+            const greetingButton = document.getElementById('user-greeting');
+            const signOutPrompt = document.getElementById('sign-out-prompt');
+
+            if (signOutPrompt.style.display === 'none') {
+                greetingButton.innerText = `Hi, {{ session.get('username', 'Guest').capitalize() }}`;
+            }
+        }
+
+        function showSignOutPrompt() {
+            const signOutPrompt = document.getElementById('sign-out-prompt');
+            signOutPrompt.style.display = 'block';
+        }
+
+        function hideSignOutPrompt() {
+            const greetingButton = document.getElementById('user-greeting');
+            const signOutPrompt = document.getElementById('sign-out-prompt');
+            greetingButton.innerText = `Hi, {{ session.get('username', 'Guest').capitalize() }}`;
+            signOutPrompt.style.display = 'none';
+        }
+    </script>
+
+    {% with messages = get_flashed_messages(with_categories=True) %}
+        {% if messages %}
+            <div class="container mt-4">
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+</body>
+</html>
